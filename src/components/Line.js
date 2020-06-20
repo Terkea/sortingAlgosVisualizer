@@ -4,10 +4,6 @@ import React, { useState } from 'react'
 const Line = (props) => {
     const [status, setStatus] = useState('default');
 
-    const onClick = () => {
-        setStatus('error')
-    }
-
     const style = {
         height: 5 * props.size + 'px',
         width: props.width + 'px',
@@ -30,7 +26,7 @@ const Line = (props) => {
     }
 
     return (
-        <div style={style} onClick={onClick} />
+        <div style={style} onClick={() => setStatus('error')} />
     )
 }
 
