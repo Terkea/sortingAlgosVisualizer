@@ -20,7 +20,22 @@ const NavBar = (props) => {
       type: 'UPDATE_SIZE',
       payload: size,
     });
+
+    var items = [];
+    for (let i = 0; i <= size; i++) {
+      items.push({
+        id: i,
+        value: Math.floor(Math.random() * 100),
+        status: 'default',
+      });
+    }
+
+    dispatch({
+      type: 'GENERATE_LIST',
+      payload: items,
+    });
   };
+
   const onChangeSpeed = (e, dispatch) => {
     const speed = e.target.value;
     if (speed > SPEED_MAXIMUM) {

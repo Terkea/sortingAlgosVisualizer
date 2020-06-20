@@ -14,6 +14,18 @@ const reducer = (state, action) => {
         ...state,
         speed: action.payload,
       };
+    case 'GENERATE_LIST':
+      return {
+        ...state,
+        items: action.payload,
+      };
+    // case 'UPDATE_LIST':
+    //   return {
+    //     ...state,
+    //     contacts: state.contacts.filter(
+    //       (contact) => contact.id !== action.payload
+    //     ),
+    //   };
     default:
       return state;
   }
@@ -23,6 +35,7 @@ export class Provider extends Component {
   state = {
     size: 20,
     speed: 200, //ms
+    items: [],
     dispatch: (action) => this.setState((state) => reducer(state, action)),
   };
   render() {
