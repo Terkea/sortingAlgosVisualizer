@@ -23,7 +23,7 @@ const NavBar = (props) => {
 
     // cant be 0
     var items = [];
-    for (let i = 0; i <= size; i++) {
+    for (let i = 0; i < size; i++) {
       items.push({
         id: i,
         value: Math.floor(Math.random() * 100),
