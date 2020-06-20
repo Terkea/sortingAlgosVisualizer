@@ -21,6 +21,7 @@ const NavBar = (props) => {
       payload: size,
     });
 
+    // cant be 0
     var items = [];
     for (let i = 0; i <= size; i++) {
       items.push({

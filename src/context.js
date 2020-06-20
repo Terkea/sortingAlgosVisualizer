@@ -31,11 +31,24 @@ const reducer = (state, action) => {
   }
 };
 
+// cant be 0
+var items = [];
+for (let i = 0; i <= 20; i++) {
+  items.push({
+    id: i,
+    value: Math.floor(Math.random() * 100),
+    status: 'default',
+  });
+}
+
 export class Provider extends Component {
+
+
+
   state = {
     size: 20,
     speed: 200, //ms
-    items: [],
+    items: items,
     dispatch: (action) => this.setState((state) => reducer(state, action)),
   };
   render() {
