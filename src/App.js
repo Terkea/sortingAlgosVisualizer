@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Board from './components/Board'
+import NavBar from './components/NavBar';
+import Board from './components/Board';
+import { Provider } from './context';
 
-function App() {
-  const values = [5, 120, 69]
+const App = () => {
+  const [inputSize, setInputSize] = useState(20);
+  const [speed, setSpeed] = useState(200); //ms
+  const values = [5, 120, 69];
 
   return (
-    <div className="App" >
-      <Board values={values} />
-    </div>
+    <Provider>
+      <div className="App">
+        <NavBar />
+        <Board values={values} />
+      </div>
+    </Provider>
   );
-}
-
-
+};
 
 export default App;
