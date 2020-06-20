@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Line from './Line'
 
 const Board = (props) => {
-
     return (
         <div style={styles.board}>
             {props.values.map((answer, i) => {
-                // the value of the board width divided by the number of values from which we substract 5 (the margin factor per line)
+                // the value of the board width divided by the number of values from which we substract 5 (the margin factor per)
                 return (<Line key={i} size={answer} width={(1000 / props.values.length) - 5} />)
             })}
 
