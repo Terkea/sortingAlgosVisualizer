@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import Line from './Line';
 import { Consumer } from '../context';
 
-const Board = (props) => {
+const Board = () => {
   return (
     <Consumer>
       {(value) => {
         const { size, speed, items, dispatch } = value;
         return (
-            <div style={styles.board}>
-            {items.map((value, i) => {
+          <div style={styles.board}>
+            {items.map((item, i) => {
               // the value of the board width divided by the number of values from which we substract 5 (the margin factor per)
               return (
-                  <Line key={i} size={value.value} width={(1000 / items.length) - 5} />
+                  <Line key={i} status={item.status} size={item.value} width={(1000 / items.length) - 5} />
               );
             })}
           </div>

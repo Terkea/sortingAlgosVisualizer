@@ -19,13 +19,20 @@ const reducer = (state, action) => {
         ...state,
         items: action.payload,
       };
-    // case 'UPDATE_LIST':
-    //   return {
-    //     ...state,
-    //     contacts: state.contacts.filter(
-    //       (contact) => contact.id !== action.payload
-    //     ),
-    //   };
+    case 'UPDATE_ITEM':
+      return {
+        ...state,
+        items: state.items.map(
+          (item) => {
+            if (item.id !== action.payload.id) {
+              return item
+            } else {
+              return action.payload
+
+            }
+          }
+        ),
+      };
     default:
       return state;
   }

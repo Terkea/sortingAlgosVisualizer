@@ -7,12 +7,12 @@ import { Provider } from './context';
 const App = () => {
   const [inputSize, setInputSize] = useState(20);
   const [speed, setSpeed] = useState(200); //ms
-  const values = [1, 69, 100];
+  
   return (
     <Provider>
       <div className="App">
         <NavBar />
-        <Board values={values} />
+        <Board />
       </div>
     </Provider>
   );

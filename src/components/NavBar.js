@@ -50,10 +50,48 @@ const NavBar = (props) => {
     });
   };
 
+  const updateItem = (item, dispatch) => {
+    const { id, size } = item;
+    dispatch({
+      type: 'UPDATE_ITEM',
+      payload: {
+        id: id,
+        // grab the original value
+        size: size,
+        status: 'error'
+      },
+    });
+  }
+
+
+
   return (
     <Consumer>
       {(value) => {
-        const { size, speed, dispatch } = value;
+        const { size, speed, items, dispatch } = value;
+        const sort = (algorithm) => {
+
+          var arr = Object.keys(items).map(function (key) {
+            return [Number(key), items[key]];
+          });
+
+          console.log(arr)
+
+          let swapped;
+          do {
+            swapped = false;
+            for (let i = 0; i < arr.length; i++) {
+              if (arr[i].value > arr[i + 1].value) {
+                let tmp = arr[i].value;
+                arr[i].value = arr[i + 1].value;
+                arr[i + 1].value = tmp;
+                swapped = true;
+              }
+            }
+          } while (swapped);
+          console.log(arr);
+        }
+
         return (
           <nav style={navbarStyle}>
             <ul
@@ -91,6 +129,7 @@ const NavBar = (props) => {
                 type="number"
                 defaultValue={speed}
               />
+              <button onClick={() => sort('bubble')} >SORT THIS SHIT</button>
             </ul>
           </nav>
         );

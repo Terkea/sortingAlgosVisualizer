@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 
 const Line = (props) => {
-    const [status, setStatus] = useState('default');
-
     const style = {
         height: 5 * props.size + 'px',
         width: props.width + 'px',
@@ -11,7 +9,7 @@ const Line = (props) => {
         marginRight: '5px'
     }
 
-    switch (status) {
+    switch (props.status) {
         case 'error':
             style.backgroundColor = colors.error
             break;
@@ -26,7 +24,7 @@ const Line = (props) => {
     }
 
     return (
-        <div style={style} onClick={() => setStatus('error')} />
+        <div style={style}/>
     )
 }
 
