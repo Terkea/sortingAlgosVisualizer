@@ -8,6 +8,7 @@ const Board = () => {
       {(value) => {
         const { size, speed, items, dispatch } = value;
         return (
+          
           <div style={styles.board}>
             {items.map((item, i) => {
               // the value of the board width divided by the number of values from which we substract 5 (the margin factor per)
