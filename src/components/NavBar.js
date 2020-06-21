@@ -167,7 +167,7 @@ const NavBar = (props) => {
         const { sorting, size, speed, items, dispatch } = value;
         const sort = (algorithm) => {
           if (sorting == false) {
-            bubbleSort(items, speed, dispatch);
+            algorithm(items, speed, dispatch);
           }
 
           console.log(items);
@@ -210,7 +210,7 @@ const NavBar = (props) => {
                 type="number"
                 defaultValue={speed}
               />
-              <button onClick={() => sort('bubble')}>SORT THIS SHIT</button>
+              <button onClick={() => sort(bubbleSort)}>SORT THIS SHIT</button>
             </ul>
           </nav>
         );
