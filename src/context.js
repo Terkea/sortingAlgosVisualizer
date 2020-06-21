@@ -48,7 +48,7 @@ for (let i = 0; i < 20; i++) {
 export class Provider extends Component {
   state = {
     size: 20,
-    speed: 200, //ms
+    speed: 0, //ms
     items: items,
     dispatch: (action) => this.setState((state) => reducer(state, action)),
   };

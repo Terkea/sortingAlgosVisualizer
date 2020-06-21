@@ -83,7 +83,8 @@ const NavBar = (props) => {
               //Number of passes
               for (var j = 0; j < length - i - 1; j++) {
                 //Notice that j < (length - i)
-                //Compare the adjacent positions
+                // Compare the adjacent positions
+                await timer(speed);
                 dispatch({
                   type: 'UPDATE_ITEM',
                   payload: {
@@ -95,13 +96,13 @@ const NavBar = (props) => {
                 dispatch({
                   type: 'UPDATE_ITEM',
                   payload: {
-                    id: temp_items[i].id,
-                    value: temp_items[i].value,
+                    id: temp_items[j + 1].id,
+                    value: temp_items[j + 1].value,
                     status: 'evaluating',
                   },
                 });
-                await timer(speed);
                 if (temp_items[j].value > temp_items[j + 1].value) {
+                  await timer(speed / 2);
                   //Swap the numbers
                   var tmp = temp_items[j].value; //Temporary variable to hold the current number
                   temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
@@ -111,17 +112,37 @@ const NavBar = (props) => {
                     payload: {
                       id: temp_items[j].id,
                       value: temp_items[j].value,
-                      status: 'finished',
+                      status: 'evaluating',
                     },
                   });
                   dispatch({
                     type: 'UPDATE_ITEM',
                     payload: {
-                      id: temp_items[i].id,
-                      value: temp_items[i].value,
-                      status: 'finished',
+                      id: temp_items[j + 1].id,
+                      value: temp_items[j + 1].value,
+                      status: 'error',
                     },
                   });
+
+                  await timer(speed / 2);
+                  dispatch({
+                    type: 'UPDATE_ITEM',
+                    payload: {
+                      id: temp_items[j].id,
+                      value: temp_items[j].value,
+                      status: 'default',
+                    },
+                  });
+                  dispatch({
+                    type: 'UPDATE_ITEM',
+                    payload: {
+                      id: temp_items[j + 1].id,
+                      value: temp_items[j + 1].value,
+                      status: 'default',
+                    },
+                  });
+
+                } else {
                   await timer(speed);
 
                   dispatch({
@@ -135,8 +156,8 @@ const NavBar = (props) => {
                   dispatch({
                     type: 'UPDATE_ITEM',
                     payload: {
-                      id: temp_items[i].id,
-                      value: temp_items[i].value,
+                      id: temp_items[j + 1].id,
+                      value: temp_items[j + 1].value,
                       status: 'default',
                     },
                   });
@@ -150,7 +171,7 @@ const NavBar = (props) => {
           console.log(items);
           dispatch({
             type: 'UPDATE_LIST',
-            payload: items,
+            payload: temp_items,
           });
         };
 
