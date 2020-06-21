@@ -190,7 +190,7 @@ const NavBar = (props) => {
       {(value) => {
         const { sorting, size, speed, items, dispatch } = value;
         let algorithm;
-        let sortType;
+        let sortType = 'BUBBLE';
         const sort = () => {
           if (sorting == false) {
             switch (sortType) {
@@ -199,6 +199,21 @@ const NavBar = (props) => {
                 break;
               case 'INSERTION':
                 insertionSort();
+                break;
+              case 'SELECTION':
+                selectionSort();
+                break;
+              case 'MERGE':
+                mergeSort();
+                break;
+              case 'QUICK':
+                quickSort();
+                break;
+              case 'TIM':
+                timSort();
+                break;
+              case 'HEAP':
+                heapSort();
                 break;
               default:
                 algorithm = null;
