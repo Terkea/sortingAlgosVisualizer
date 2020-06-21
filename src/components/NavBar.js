@@ -50,129 +50,115 @@ const NavBar = (props) => {
     });
   };
 
-  const updateItem = (item, dispatch) => {
-    const { id, size } = item;
+  // Returns a Promise that resolves after "ms" Milliseconds
+  function timer(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
+  async function bubbleSort(items, speed, dispatch) {
+    // We need to wrap the loop into an async function for this to work
+
+    var temp_items = items;
+    var length = temp_items.length;
+
+    for (var i = 0; i < length; i++) {
+      //Number of passes
+      for (var j = 0; j < length - i - 1; j++) {
+        //Notice that j < (length - i)
+        // Compare the adjacent positions
+        await timer(speed);
+        dispatch({
+          type: 'UPDATE_ITEM',
+          payload: {
+            id: temp_items[j].id,
+            value: temp_items[j].value,
+            status: 'evaluating',
+          },
+        });
+        dispatch({
+          type: 'UPDATE_ITEM',
+          payload: {
+            id: temp_items[j + 1].id,
+            value: temp_items[j + 1].value,
+            status: 'evaluating',
+          },
+        });
+        if (temp_items[j].value > temp_items[j + 1].value) {
+          await timer(speed / 2);
+          //Swap the numbers
+          var tmp = temp_items[j].value; //Temporary variable to hold the current number
+          temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
+          temp_items[j + 1].value = tmp; //Replace adjacent number with current number
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j].id,
+              value: temp_items[j].value,
+              status: 'evaluating',
+            },
+          });
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j + 1].id,
+              value: temp_items[j + 1].value,
+              status: 'error',
+            },
+          });
+
+          await timer(speed / 2);
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j].id,
+              value: temp_items[j].value,
+              status: 'default',
+            },
+          });
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j + 1].id,
+              value: temp_items[j + 1].value,
+              status: 'default',
+            },
+          });
+        } else {
+          await timer(speed);
+
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j].id,
+              value: temp_items[j].value,
+              status: 'default',
+            },
+          });
+          dispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+              id: temp_items[j + 1].id,
+              value: temp_items[j + 1].value,
+              status: 'default',
+            },
+          });
+        }
+      }
+    }
     dispatch({
-      type: 'UPDATE_ITEM',
-      payload: {
-        id: id,
-        // grab the original value
-        size: size,
-        status: 'error',
-      },
+      type: 'UPDATE_LIST',
+      payload: temp_items,
     });
-  };
+  }
 
   return (
     <Consumer>
       {(value) => {
         const { size, speed, items, dispatch } = value;
         const sort = (algorithm) => {
-          var temp_items = items;
-          var length = temp_items.length;
-
-          // Returns a Promise that resolves after "ms" Milliseconds
-          function timer(ms) {
-            return new Promise((res) => setTimeout(res, ms));
-          }
-
-          async function load() {
-            // We need to wrap the loop into an async function for this to work
-
-            for (var i = 0; i < length; i++) {
-              //Number of passes
-              for (var j = 0; j < length - i - 1; j++) {
-                //Notice that j < (length - i)
-                // Compare the adjacent positions
-                await timer(speed);
-                dispatch({
-                  type: 'UPDATE_ITEM',
-                  payload: {
-                    id: temp_items[j].id,
-                    value: temp_items[j].value,
-                    status: 'evaluating',
-                  },
-                });
-                dispatch({
-                  type: 'UPDATE_ITEM',
-                  payload: {
-                    id: temp_items[j + 1].id,
-                    value: temp_items[j + 1].value,
-                    status: 'evaluating',
-                  },
-                });
-                if (temp_items[j].value > temp_items[j + 1].value) {
-                  await timer(speed / 2);
-                  //Swap the numbers
-                  var tmp = temp_items[j].value; //Temporary variable to hold the current number
-                  temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
-                  temp_items[j + 1].value = tmp; //Replace adjacent number with current number
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j].id,
-                      value: temp_items[j].value,
-                      status: 'evaluating',
-                    },
-                  });
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j + 1].id,
-                      value: temp_items[j + 1].value,
-                      status: 'error',
-                    },
-                  });
-
-                  await timer(speed / 2);
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j].id,
-                      value: temp_items[j].value,
-                      status: 'default',
-                    },
-                  });
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j + 1].id,
-                      value: temp_items[j + 1].value,
-                      status: 'default',
-                    },
-                  });
-
-                } else {
-                  await timer(speed);
-
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j].id,
-                      value: temp_items[j].value,
-                      status: 'default',
-                    },
-                  });
-                  dispatch({
-                    type: 'UPDATE_ITEM',
-                    payload: {
-                      id: temp_items[j + 1].id,
-                      value: temp_items[j + 1].value,
-                      status: 'default',
-                    },
-                  });
-                }
-              }
-            }
-          }
-
-          load();
+          bubbleSort(items, speed, dispatch);
 
           console.log(items);
-          dispatch({
-            type: 'UPDATE_LIST',
-            payload: temp_items,
-          });
         };
 
         return (
