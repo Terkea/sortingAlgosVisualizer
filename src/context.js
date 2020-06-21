@@ -14,7 +14,7 @@ const reducer = (state, action) => {
         ...state,
         speed: action.payload,
       };
-    case 'GENERATE_LIST':
+    case 'UPDATE_LIST':
       return {
         ...state,
         items: action.payload,
@@ -22,16 +22,13 @@ const reducer = (state, action) => {
     case 'UPDATE_ITEM':
       return {
         ...state,
-        items: state.items.map(
-          (item) => {
-            if (item.id !== action.payload.id) {
-              return item
-            } else {
-              return action.payload
-
-            }
+        items: state.items.map((item) => {
+          if (item.id !== action.payload.id) {
+            return item;
+          } else {
+            return action.payload;
           }
-        ),
+        }),
       };
     default:
       return state;

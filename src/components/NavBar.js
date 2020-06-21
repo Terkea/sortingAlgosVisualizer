@@ -32,7 +32,7 @@ const NavBar = (props) => {
     }
 
     dispatch({
-      type: 'GENERATE_LIST',
+      type: 'UPDATE_LIST',
       payload: items,
     });
   };
@@ -58,35 +58,88 @@ const NavBar = (props) => {
         id: id,
         // grab the original value
         size: size,
-        status: 'error'
+        status: 'error',
       },
     });
-  }
-
-
+  };
 
   return (
     <Consumer>
       {(value) => {
         const { size, speed, items, dispatch } = value;
         const sort = (algorithm) => {
-
-          var temp_items = items
+          var temp_items = items;
           var length = temp_items.length;
-          for (var i = 0; i < length; i++) { //Number of passes
-            for (var j = 0; j < (length - i - 1); j++) { //Notice that j < (length - i)
+          for (var i = 0; i < length; i++) {
+            //Number of passes
+            for (var j = 0; j < length - i - 1; j++) {
+              //Notice that j < (length - i)
               //Compare the adjacent positions
+              dispatch({
+                type: 'UPDATE_ITEM',
+                payload: {
+                  id: temp_items[j].id,
+                  value: temp_items[j].value,
+                  status: 'evaluating',
+                },
+              });
+              dispatch({
+                type: 'UPDATE_ITEM',
+                payload: {
+                  id: temp_items[i].id,
+                  value: temp_items[i].value,
+                  status: 'evaluating',
+                },
+              });
+              setTimeout(speed);
               if (temp_items[j].value > temp_items[j + 1].value) {
                 //Swap the numbers
                 var tmp = temp_items[j].value; //Temporary variable to hold the current number
                 temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
                 temp_items[j + 1].value = tmp; //Replace adjacent number with current number
+                dispatch({
+                  type: 'UPDATE_ITEM',
+                  payload: {
+                    id: temp_items[j].id,
+                    value: temp_items[j].value,
+                    status: 'finished',
+                  },
+                });
+                dispatch({
+                  type: 'UPDATE_ITEM',
+                  payload: {
+                    id: temp_items[i].id,
+                    value: temp_items[i].value,
+                    status: 'finished',
+                  },
+                });
+                setTimeout(speed);
+                dispatch({
+                  type: 'UPDATE_ITEM',
+                  payload: {
+                    id: temp_items[j].id,
+                    value: temp_items[j].value,
+                    status: 'default',
+                  },
+                });
+                dispatch({
+                  type: 'UPDATE_ITEM',
+                  payload: {
+                    id: temp_items[i].id,
+                    value: temp_items[i].value,
+                    status: 'default',
+                  },
+                });
               }
             }
           }
 
-          console.log(items)
-        }
+          console.log(items);
+          dispatch({
+            type: 'UPDATE_LIST',
+            payload: items,
+          });
+        };
 
         return (
           <nav style={navbarStyle}>
@@ -125,7 +178,7 @@ const NavBar = (props) => {
                 type="number"
                 defaultValue={speed}
               />
-              <button onClick={() => sort('bubble')} >SORT THIS SHIT</button>
+              <button onClick={() => sort('bubble')}>SORT THIS SHIT</button>
             </ul>
           </nav>
         );
