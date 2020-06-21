@@ -1,4 +1,10 @@
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   height: 100%;
   margin: 0;
+}
+a {
+  cursor: pointer;
 }

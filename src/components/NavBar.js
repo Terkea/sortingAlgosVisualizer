@@ -161,16 +161,53 @@ const NavBar = (props) => {
     });
   }
 
+  async function insertionSort() {
+    console.log('Preparing to insert');
+  }
+
+  async function selectionSort() {
+    console.log('Preparing to selectionSort');
+  }
+
+  async function mergeSort() {
+    console.log('Preparing to mergeSort');
+  }
+
+  async function quickSort() {
+    console.log('Preparing to quickSort');
+  }
+
+  async function timSort() {
+    console.log('Preparing to timSort');
+  }
+
+  async function heapSort() {
+    console.log('Preparing to heapSort');
+  }
+
   return (
     <Consumer>
       {(value) => {
         const { sorting, size, speed, items, dispatch } = value;
-        const sort = (algorithm) => {
+        let algorithm;
+        let sortType;
+        const sort = () => {
           if (sorting == false) {
-            algorithm(items, speed, dispatch);
+            switch (sortType) {
+              case 'BUBBLE':
+                algorithm = bubbleSort;
+                break;
+              case 'INSERTION':
+                insertionSort();
+                break;
+              default:
+                algorithm = null;
+                break;
+            }
+            if (algorithm != null) {
+              algorithm(items, speed, dispatch);
+            }
           }
-
-          console.log(items);
         };
 
         return (
@@ -193,13 +230,13 @@ const NavBar = (props) => {
               <div className="dropdown" style={listElementsStyle}>
                 <button className="dropbtn">Sorting Algorithms ↴</button>
                 <div className="dropdown-content">
-                  <a href="#">Bubble Sort</a>
-                  <a href="#">Insertion Sort</a>
-                  <a href="#">Selection Sort</a>
-                  <a href="#">Merge Sort</a>
-                  <a href="#">Quick Sort</a>
-                  <a href="#">Tim Sort</a>
-                  <a href="#">Heap Sort</a>
+                  <a onClick={() => (sortType = 'BUBBLE')}>Bubble Sort</a>
+                  <a onClick={() => (sortType = 'INSERTION')}>Insertion Sort</a>
+                  <a onClick={() => (sortType = 'SELECTION')}>Selection Sort</a>
+                  <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
+                  <a onClick={() => (sortType = 'QUICK')}>Quick Sort</a>
+                  <a onClick={() => (sortType = 'TIM')}>Tim Sort</a>
+                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a>
                 </div>
               </div>
               <li style={listElementsStyle}>Speed</li>
