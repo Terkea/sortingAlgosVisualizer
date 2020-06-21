@@ -19,6 +19,11 @@ const reducer = (state, action) => {
         ...state,
         items: action.payload,
       };
+    case 'UPDATE_SORTING':
+      return {
+        ...state,
+        sorting: action.payload,
+      };
     case 'UPDATE_ITEM':
       return {
         ...state,
@@ -47,6 +52,7 @@ for (let i = 0; i < 20; i++) {
 
 export class Provider extends Component {
   state = {
+    sorting: false,
     size: 20,
     speed: 0, //ms
     items: items,

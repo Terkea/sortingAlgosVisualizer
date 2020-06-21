@@ -56,8 +56,13 @@ const NavBar = (props) => {
   }
 
   async function bubbleSort(items, speed, dispatch) {
-    // We need to wrap the loop into an async function for this to work
+    //prevent from sorting multiple times
+    dispatch({
+      type: 'UPDATE_SORTING',
+      payload: true,
+    });
 
+    // We need to wrap the loop into an async function for this to work
     var temp_items = items;
     var length = temp_items.length;
 
@@ -149,14 +154,21 @@ const NavBar = (props) => {
       type: 'UPDATE_LIST',
       payload: temp_items,
     });
+    //prevent from sorting multiple times
+    dispatch({
+      type: 'UPDATE_SORTING',
+      payload: false,
+    });
   }
 
   return (
     <Consumer>
       {(value) => {
-        const { size, speed, items, dispatch } = value;
+        const { sorting, size, speed, items, dispatch } = value;
         const sort = (algorithm) => {
-          bubbleSort(items, speed, dispatch);
+          if (sorting == false) {
+            bubbleSort(items, speed, dispatch);
+          }
 
           console.log(items);
         };
