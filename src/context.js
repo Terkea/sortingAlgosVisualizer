@@ -54,7 +54,7 @@ export class Provider extends Component {
   state = {
     sorting: false,
     size: 20,
-    speed: 0, //ms
+    speed: 200, //ms
     items: items,
     dispatch: (action) => this.setState((state) => reducer(state, action)),
   };

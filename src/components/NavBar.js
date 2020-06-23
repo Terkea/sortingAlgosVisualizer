@@ -101,7 +101,7 @@ const NavBar = () => {
         } else {
           await timer(speed);
           updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch)
-          updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch)
+          updateItem(temp_items[j + 1].id, temp_items[j + 1].value, 'default', dispatch)
         }
       }
     }
@@ -116,27 +116,72 @@ const NavBar = () => {
     });
   }
 
-  async function insertionSort() {
-    console.log('Preparing to insert');
+  async function insertionSort(items, speed, dispatch) {
+    var temp_items = items;
+    var length = temp_items.length;
+    dispatch({
+      type: 'UPDATE_SORTING',
+      payload: true,
+    });
+
+
+    for (let i = 1; i < length; i++) {
+      let j = i - 1
+      let temp = temp_items[i].value
+      updateItem(temp_items[i].id, temp_items[i].value, 'error', dispatch)
+      dispatch({
+        type: 'UPDATE_LIST',
+        payload: temp_items,
+      });
+      while (j >= 0 && temp_items[j].value > temp) {
+        await timer(speed/2);
+        updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch)
+        updateItem(temp_items[j + 1].id, temp_items[j + 1].value, 'evaluating', dispatch)
+
+        await timer(speed/2);
+        updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch)
+        updateItem(temp_items[j + 1].id, temp_items[j + 1].value, 'error', dispatch)
+
+        temp_items[j + 1].value = temp_items[j].value
+        await timer(speed);
+
+        j--
+        dispatch({
+          type: 'UPDATE_LIST',
+          payload: temp_items,
+        });
+      }
+      temp_items[j + 1].value = temp
+    }
+
+    dispatch({
+      type: 'UPDATE_LIST',
+      payload: temp_items,
+    });
+    //prevent from sorting multiple times
+    dispatch({
+      type: 'UPDATE_SORTING',
+      payload: false,
+    });
   }
 
-  async function selectionSort() {
+  async function selectionSort(items, speed, dispatch) {
     console.log('Preparing to selectionSort');
   }
 
-  async function mergeSort() {
+  async function mergeSort(items, speed, dispatch) {
     console.log('Preparing to mergeSort');
   }
 
-  async function quickSort() {
+  async function quickSort(items, speed, dispatch) {
     console.log('Preparing to quickSort');
   }
 
-  async function timSort() {
+  async function timSort(items, speed, dispatch) {
     console.log('Preparing to timSort');
   }
 
-  async function heapSort() {
+  async function heapSort(items, speed, dispatch) {
     console.log('Preparing to heapSort');
   }
 
@@ -153,25 +198,25 @@ const NavBar = () => {
                 algorithm = bubbleSort;
                 break;
               case 'INSERTION':
-                insertionSort();
+                insertionSort(items, speed, dispatch);
                 break;
               case 'SELECTION':
-                selectionSort();
+                selectionSort(items, speed, dispatch);
                 break;
               case 'MERGE':
-                mergeSort();
+                mergeSort(items, speed, dispatch);
                 break;
               case 'QUICK':
-                quickSort();
+                quickSort(items, speed, dispatch);
                 break;
               case 'TIM':
-                timSort();
+                timSort(items, speed, dispatch);
                 break;
               case 'HEAP':
-                heapSort();
+                heapSort(items, speed, dispatch);
                 break;
               default:
-                algorithm = null;
+                algorithm = bubbleSort;
             }
             if (algorithm != null) {
               algorithm(items, speed, dispatch);
@@ -216,7 +261,7 @@ const NavBar = () => {
                 type="number"
                 defaultValue={speed}
               />
-              <button onClick={() => sort(bubbleSort)}>SORT THIS SHIT</button>
+              <button onClick={() => sort()}>SORT THIS SHIT</button>
             </ul>
           </nav>
         );

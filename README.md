@@ -1,7 +1,4 @@
-# TODO
-* ~~when generating the items sometimes we got 0~~
-* context state for line status
-* swap lines
-* update items
-* implement algos
-* live text about the current stage of the algo
+Total number of steps required to sort an array using bubble sort is:
+N + (N-1) + (N-2) + …     ≈  (N * (N-1)) / 2 (sum of N natural numbers)
+For N → ∞ :
+Number of steps ≈ N².
