@@ -155,7 +155,7 @@ const NavBar = () => {
 };
 
 const navbarStyle = {
-  backgroundColor: '#ff6262',
+  backgroundColor: '#6204BF',
   height: '3rem',
 };
 

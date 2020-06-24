@@ -13,7 +13,7 @@ const Board = () => {
             {items.map((item, i) => {
               // the value of the board width divided by the number of values from which we substract 5 (the margin factor per)
               return (
-                  <Line key={i} status={item.status} size={item.value} width={(1200 / items.length) - 5} />
+                  <Line key={i} status={item.status} size={item.value} width={(1600 / items.length) - 5} />
               );
             })}
           </div>
@@ -25,9 +25,8 @@ const Board = () => {
 
 const styles = {
   board: {
-    backgroundColor: 'rgba(255, 0, 0, 0.2)',
-    width: '1220px',
-    height: '500px',
+    width: '1620px',
+    height: '700px',
     margin: 'auto',
     display: 'flex',
   },

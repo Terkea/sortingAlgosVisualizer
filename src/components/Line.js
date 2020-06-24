@@ -6,6 +6,7 @@ const Line = (props) => {
         width: props.width + 'px',
         marginLeft: 3 + 'px',
         marginRight: 3 + 'px',
+        borderRadius: '0px 0px 50px 0px'
     };
 
     switch (props.status) {
@@ -26,10 +27,9 @@ const Line = (props) => {
 };
 
 const colors = {
-    default: 'blue',
-    evaluating: 'green',
-    error: 'red',
-    swapped: 'purple',
+    default: '#7C05F2',
+    evaluating: '#05F29B',
+    error: '#F205CB',
 };
 
 export default Line;

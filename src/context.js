@@ -42,10 +42,10 @@ const reducer = (state, action) => {
 
 // cant be 0
 var items = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 60; i++) {
   items.push({
     id: i,
-    value: Math.floor(Math.random() * 100),
+    value: Math.floor(Math.random() * 140),
     status: 'default',
   });
 }
@@ -53,8 +53,8 @@ for (let i = 0; i < 20; i++) {
 export class Provider extends Component {
   state = {
     sorting: false,
-    size: 20,
-    speed: 200, //ms
+    size: 60,
+    speed: 0, //ms
     items: items,
     dispatch: (action) => this.setState((state) => reducer(state, action)),
   };
