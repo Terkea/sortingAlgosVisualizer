@@ -6,6 +6,7 @@ import { Consumer } from '../context';
 import bubbleSort from './algorithms/bubbleSort';
 import insertionSort from './algorithms/insertionSort';
 import selectionSort from './algorithms/selectionSort';
+import mergeSort from './algorithms/mergeSort';
 
 const SIZE_MAXIMUM = 100;
 const SIZE_MINIMUM = 0;
@@ -54,9 +55,6 @@ const onChangeSpeed = (e, dispatch) => {
   });
 };
 
-async function mergeSort(items, speed, dispatch) {
-  console.log('Preparing to mergeSort');
-}
 
 async function quickSort(items, speed, dispatch) {
   console.log('Preparing to quickSort');
