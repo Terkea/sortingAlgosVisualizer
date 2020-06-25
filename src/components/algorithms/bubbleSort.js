@@ -26,7 +26,7 @@ export default async function bubbleSort(items, speed, dispatch) {
       );
       if (temp_items[j].value > temp_items[j + 1].value) {
         await timer(speed / 2);
-        //Swap the numbers
+        // Swap the numbers
         var tmp = temp_items[j].value; //Temporary variable to hold the current number
         temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
         temp_items[j + 1].value = tmp; //Replace adjacent number with current number

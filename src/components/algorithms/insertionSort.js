@@ -12,10 +12,7 @@ export default async function insertionSort(items, speed, dispatch) {
     let j = i - 1;
     let temp = temp_items[i].value;
     updateItem(temp_items[i].id, temp_items[i].value, 'error', dispatch);
-    dispatch({
-      type: 'UPDATE_LIST',
-      payload: temp_items,
-    });
+
     while (j >= 0 && temp_items[j].value > temp) {
       await timer(speed / 2);
       updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch);
@@ -47,10 +44,6 @@ export default async function insertionSort(items, speed, dispatch) {
     temp_items[j + 1].value = temp;
   }
 
-  dispatch({
-    type: 'UPDATE_LIST',
-    payload: temp_items,
-  });
   //prevent from sorting multiple times
   dispatch({
     type: 'UPDATE_SORTING',

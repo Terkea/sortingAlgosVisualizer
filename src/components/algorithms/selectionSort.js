@@ -49,6 +49,4 @@ export default async function selectionSort(items, speed, dispatch) {
     type: 'UPDATE_SORTING',
     payload: false,
   });
-
-  console.log('selection shit');
 }

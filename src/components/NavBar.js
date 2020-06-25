@@ -7,6 +7,7 @@ import bubbleSort from './algorithms/bubbleSort';
 import insertionSort from './algorithms/insertionSort';
 import selectionSort from './algorithms/selectionSort';
 import mergeSort from './algorithms/mergeSort';
+import quickSort from './algorithms/quickSort';
 
 const SIZE_MAXIMUM = 100;
 const SIZE_MINIMUM = 0;
@@ -55,11 +56,6 @@ const onChangeSpeed = (e, dispatch) => {
   });
 };
 
-
-async function quickSort(items, speed, dispatch) {
-  console.log('Preparing to quickSort');
-}
-
 async function timSort(items, speed, dispatch) {
   console.log('Preparing to timSort');
 }
@@ -75,28 +71,35 @@ const NavBar = () => {
         const { sorting, size, speed, items, dispatch } = value;
         let algorithm;
         let sortType = 'BUBBLE';
-        const sort = () => {
+        const sort = (e) => {
           if (sorting == false) {
             switch (sortType) {
               case 'BUBBLE':
+                console.log('bubble');
                 algorithm = bubbleSort;
                 break;
               case 'INSERTION':
+                console.log('insertion');
                 insertionSort(items, speed, dispatch);
                 break;
               case 'SELECTION':
+                console.log('selection');
                 selectionSort(items, speed, dispatch);
                 break;
               case 'MERGE':
+                console.log('merge');
                 mergeSort(items, speed, dispatch);
                 break;
               case 'QUICK':
+                console.log('quick');
                 quickSort(items, speed, dispatch);
                 break;
               case 'TIM':
+                console.log('tim');
                 timSort(items, speed, dispatch);
                 break;
               case 'HEAP':
+                console.log('heap');
                 heapSort(items, speed, dispatch);
                 break;
               default:
@@ -128,13 +131,17 @@ const NavBar = () => {
               <div className="dropdown" style={listElementsStyle}>
                 <button className="dropbtn">Sorting Algorithms ↴</button>
                 <div className="dropdown-content">
-                  <a onClick={() => (sortType = 'BUBBLE')}>Bubble Sort</a>
-                  <a onClick={() => (sortType = 'INSERTION')}>Insertion Sort</a>
-                  <a onClick={() => (sortType = 'SELECTION')}>Selection Sort</a>
-                  <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
-                  <a onClick={() => (sortType = 'QUICK')}>Quick Sort</a>
-                  <a onClick={() => (sortType = 'TIM')}>Tim Sort</a>
-                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a>
+                  <a onClick={(e) => (sortType = 'BUBBLE')}>Bubble Sort</a>
+                  <a onClick={(e) => (sortType = 'INSERTION')}>
+                    Insertion Sort
+                  </a>
+                  <a onClick={(e) => (sortType = 'SELECTION')}>
+                    Selection Sort
+                  </a>
+                  <a onClick={(e) => (sortType = 'MERGE')}>Merge Sort</a>
+                  <a onClick={(e) => (sortType = 'QUICK')}>Quick Sort</a>
+                  <a onClick={(e) => (sortType = 'TIM')}>Tim Sort</a>
+                  <a onClick={(e) => (sortType = 'HEAP')}>Heap Sort</a>
                 </div>
               </div>
               <li style={listElementsStyle}>Speed</li>
