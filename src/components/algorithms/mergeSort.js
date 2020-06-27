@@ -1,6 +1,12 @@
-import { timer, updateItem } from './helpers';
+import {
+  timer,
+  updateItem,
+  pushItems,
+  pushItem,
+  resetItemsColor,
+} from './helpers';
 
-export default async function mergeSort(items, speed, dispatch) {
+export default function mergeSort(items, speed, dispatch) {
   // Merge Sort Implentation (Recursion)
   function actuallyMergeSort(unsortedArray) {
     // No need to sort the array if the array only has one element or empty
@@ -24,32 +30,63 @@ export default async function mergeSort(items, speed, dispatch) {
       rightIndex = 0;
 
     // We will concatenate values into the resultArray in order
+
     while (leftIndex < left.length && rightIndex < right.length) {
       if (left[leftIndex].value < right[rightIndex].value) {
-        resultArray.push(left[leftIndex]);
-        timer(speed / 2);
-        leftIndex++; // move left array cursor
         updateItem(
-          items[leftIndex].id,
-          items[leftIndex].value,
-          'error',
-          dispatch
-        );
-      } else {
-        resultArray.push(right[rightIndex]);
-        timer(speed / 2);
-        console.log('hello');
-        rightIndex++; // move right array cursor
-        updateItem(
-          items[leftIndex].id,
-          items[leftIndex].value,
+          left[leftIndex].id,
+          left[leftIndex].value,
           'evaluating',
           dispatch
         );
+        timer(speed / 2);
+        resultArray.push(left[leftIndex]);
+        pushItem(
+          {
+            id: left[leftIndex].id,
+            value: left[leftIndex].value,
+            color: 'isSwapping',
+          },
+          dispatch
+        );
+        // await timer(speed / 2);
+        // timer(speed / 2);
+        leftIndex++; // move left array cursor
+      } else {
+        updateItem(
+          right[rightIndex].id,
+          right[rightIndex].value,
+          'evaluating',
+          dispatch
+        );
+        // await timer(speed / 2);
+        resultArray.push(right[rightIndex]);
+        pushItem(
+          {
+            id: right[rightIndex].id,
+            value: right[rightIndex].value,
+            color: 'isSwapping',
+          },
+          dispatch
+        );
+        // await timer(speed / 2);
+        updateItem(
+          right[rightIndex].id,
+          right[rightIndex].value,
+          'evaluating',
+          dispatch
+        );
+        // timer(speed / 2);
+        rightIndex++; // move right array cursor
       }
+      resetItemsColor(dispatch);
     }
+
+    // const leftSliced = left.slice(leftIndex);
+    // const rightSliced = right.slice(rightIndex);
     // We need to concat here because there will be one element remaining
     // from either left OR the right
+
     return resultArray
       .concat(left.slice(leftIndex))
       .concat(right.slice(rightIndex));

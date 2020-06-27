@@ -71,8 +71,8 @@ const NavBar = () => {
         const { sorting, size, speed, items, dispatch } = value;
         let algorithm;
         let sortType = 'BUBBLE';
-        const sort = (e) => {
-          if (sorting == false) {
+        const sort = () => {
+          if (sorting === false) {
             switch (sortType) {
               case 'BUBBLE':
                 console.log('bubble');
@@ -131,17 +131,13 @@ const NavBar = () => {
               <div className="dropdown" style={listElementsStyle}>
                 <button className="dropbtn">Sorting Algorithms ↴</button>
                 <div className="dropdown-content">
-                  <a onClick={(e) => (sortType = 'BUBBLE')}>Bubble Sort</a>
-                  <a onClick={(e) => (sortType = 'INSERTION')}>
-                    Insertion Sort
-                  </a>
-                  <a onClick={(e) => (sortType = 'SELECTION')}>
-                    Selection Sort
-                  </a>
-                  <a onClick={(e) => (sortType = 'MERGE')}>Merge Sort</a>
-                  <a onClick={(e) => (sortType = 'QUICK')}>Quick Sort</a>
-                  <a onClick={(e) => (sortType = 'TIM')}>Tim Sort</a>
-                  <a onClick={(e) => (sortType = 'HEAP')}>Heap Sort</a>
+                  <a onClick={() => (sortType = 'BUBBLE')}>Bubble Sort</a>
+                  <a onClick={() => (sortType = 'INSERTION')}>Insertion Sort</a>
+                  <a onClick={() => (sortType = 'SELECTION')}>Selection Sort</a>
+                  <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
+                  <a onClick={() => (sortType = 'QUICK')}>Quick Sort</a>
+                  <a onClick={() => (sortType = 'TIM')}>Tim Sort</a>
+                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a>
                 </div>
               </div>
               <li style={listElementsStyle}>Speed</li>

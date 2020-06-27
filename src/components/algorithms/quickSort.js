@@ -5,7 +5,12 @@ export default function quickSort(items, speed, dispatch) {
   async function swap(items, leftIndex, rightIndex) {
     let temp = items[leftIndex].value;
     await timer(speed / 2);
-    updateItem(items[leftIndex].id, items[rightIndex].value, 'error', dispatch);
+    updateItem(
+      items[leftIndex].id,
+      items[rightIndex].value,
+      'isSwapping',
+      dispatch
+    );
     await timer(speed / 2);
     updateItem(items[rightIndex].id, temp, 'evaluating', dispatch);
   }

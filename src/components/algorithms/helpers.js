@@ -14,4 +14,29 @@ const updateItem = (id, size, color, dispatch) => {
   });
 };
 
-export { timer, updateItem };
+const swapItems = (item1, item2, dispatch) => {
+  dispatch({
+    type: 'SWAP_ITEMS',
+    payload: {
+      item1,
+      item2,
+    },
+  });
+};
+
+const pushItem = (item, dispatch) => {
+  dispatch({
+    type: 'PUSH_ITEM',
+    payload: {
+      item,
+    },
+  });
+};
+
+const resetItemsColor = (dispatch) => {
+  dispatch({
+    type: 'RESET_ITEMS_COLOR',
+  });
+};
+
+export { timer, updateItem, swapItems, pushItem, resetItemsColor };

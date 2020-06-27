@@ -11,7 +11,7 @@ export default async function insertionSort(items, speed, dispatch) {
   for (let i = 1; i < length; i++) {
     let j = i - 1;
     let temp = temp_items[i].value;
-    updateItem(temp_items[i].id, temp_items[i].value, 'error', dispatch);
+    updateItem(temp_items[i].id, temp_items[i].value, 'isSwapping', dispatch);
 
     while (j >= 0 && temp_items[j].value > temp) {
       await timer(speed / 2);
@@ -28,7 +28,7 @@ export default async function insertionSort(items, speed, dispatch) {
       updateItem(
         temp_items[j + 1].id,
         temp_items[j + 1].value,
-        'error',
+        'isSwapping',
         dispatch
       );
 

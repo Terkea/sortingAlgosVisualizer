@@ -39,7 +39,7 @@ export default async function bubbleSort(items, speed, dispatch) {
         updateItem(
           temp_items[j + 1].id,
           temp_items[j + 1].value,
-          'error',
+          'isSwapping',
           dispatch
         );
 
