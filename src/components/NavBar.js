@@ -134,10 +134,10 @@ const NavBar = () => {
                   <a onClick={() => (sortType = 'BUBBLE')}>Bubble Sort</a>
                   <a onClick={() => (sortType = 'INSERTION')}>Insertion Sort</a>
                   <a onClick={() => (sortType = 'SELECTION')}>Selection Sort</a>
-                  <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
+                  {/* <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
                   <a onClick={() => (sortType = 'QUICK')}>Quick Sort</a>
                   <a onClick={() => (sortType = 'TIM')}>Tim Sort</a>
-                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a>
+                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a> */}
                 </div>
               </div>
               <li style={listElementsStyle}>Speed</li>
