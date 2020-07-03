@@ -27,23 +27,18 @@ const onChangeSize = (e, dispatch) => {
     e.target.value = SIZE_MINIMUM;
   }
   dispatch({
-    type: 'UPDATE_SIZE',
+    type: 'UPDATE_SIZE_SETTING',
     payload: sizeSetting,
   });
+};
 
-  // cant be 0
-  var items = [];
-  for (let i = 0; i < sizeSetting; i++) {
-    items.push({
-      id: i,
-      value: Math.floor(Math.random() * 100),
-      status: 'default',
-    });
-  }
-
+const resetItems = (dispatch) => {
   dispatch({
-    type: 'UPDATE_LIST',
-    payload: items,
+    type: 'UPDATE_IS_SORTING',
+    payload: false,
+  });
+  dispatch({
+    type: 'GENERATE_RANDOM_LIST',
   });
 };
 
@@ -55,7 +50,7 @@ const onChangeSpeed = (e, dispatch) => {
     e.target.value = 0;
   }
   dispatch({
-    type: 'UPDATE_SPEED',
+    type: 'UPDATE_SPEED_SETTING',
     payload: speedSetting,
   });
 };
@@ -105,7 +100,7 @@ const setSortType = (e, dispatch) => {
   });
 };
 
-const sort = (state) => {
+const sort = async (state) => {
   const { isSortingSetting, dispatch } = state;
   console.log(isSortingSetting);
   if (state.isSortingSetting === false) {
@@ -114,7 +109,7 @@ const sort = (state) => {
         type: 'UPDATE_IS_SORTING',
         payload: true,
       });
-      algorithm(state);
+      await algorithm(state);
       dispatch({
         type: 'UPDATE_IS_SORTING',
         payload: false,
@@ -177,6 +172,8 @@ const NavBar = () => {
                 defaultValue={speedSetting}
               />
               <button onClick={() => sort(state)}>SORT</button>
+              <div style={{ paddingLeft: '1em' }} />
+              <button onClick={() => resetItems(dispatch)}>Reset</button>
             </ul>
           </nav>
         );

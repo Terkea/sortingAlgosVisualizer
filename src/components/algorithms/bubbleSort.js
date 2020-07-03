@@ -10,58 +10,60 @@ export default async function bubbleSort(state) {
 
   for (var i = 0; i < length; i++) {
     //Number of passes
+    await timer(speedSetting / 2);
     for (var j = 0; j < length - i - 1; j++) {
       //Notice that j < (length - i)
       // Compare the adjacent positions
       await timer(speedSetting);
-      updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch);
-      updateItem(
-        temp_items[j + 1].id,
-        temp_items[j + 1].value,
-        'evaluating',
-        dispatch
-      );
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j],
+          status: 'evaluating',
+        },
+      });
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j + 1],
+          status: 'evaluating',
+        },
+      });
+
       if (temp_items[j].value > temp_items[j + 1].value) {
         await timer(speedSetting / 2);
+
         // Swap the numbers
         var tmp = temp_items[j].value; //Temporary variable to hold the current number
         temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
         temp_items[j + 1].value = tmp; //Replace adjacent number with current number
-        updateItem(
-          temp_items[j].id,
-          temp_items[j].value,
-          'evaluating',
-          dispatch
-        );
-        updateItem(
-          temp_items[j + 1].id,
-          temp_items[j + 1].value,
-          'isSwapping',
-          dispatch
-        );
 
-        await timer(speedSetting / 2);
-        updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch);
-        updateItem(
-          temp_items[j + 1].id,
-          temp_items[j + 1].value,
-          'default',
-          dispatch
-        );
-      } else {
-        await timer(speedSetting);
-        updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch);
-        updateItem(
-          temp_items[j + 1].id,
-          temp_items[j + 1].value,
-          'default',
-          dispatch
-        );
+        dispatch({
+          type: 'UPDATE_ITEM',
+          payload: {
+            ...temp_items[j + 1],
+            status: 'isSwapping',
+          },
+        });
       }
+      await timer(speedSetting / 2);
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j],
+          status: 'default',
+        },
+      });
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j + 1],
+          status: 'default',
+        },
+      });
     }
   }
-  dispatch({
-    type: 'UPDATE_LIST',
-    payload: temp_items,
-  });
 }

@@ -11,22 +11,40 @@ export default async function insertionSort(state) {
 
     while (j >= 0 && temp_items[j].value > temp) {
       await timer(speedSetting / 2);
-      updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch);
-      updateItem(
-        temp_items[j + 1].id,
-        temp_items[j + 1].value,
-        'evaluating',
-        dispatch
-      );
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j],
+          status: 'evaluating',
+        },
+      });
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j + 1],
+          status: 'evaluating',
+        },
+      });
 
       await timer(speedSetting / 2);
-      updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch);
-      updateItem(
-        temp_items[j + 1].id,
-        temp_items[j + 1].value,
-        'isSwapping',
-        dispatch
-      );
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j],
+          status: 'evaluating',
+        },
+      });
+
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: {
+          ...temp_items[j + 1],
+          status: 'isSwapping',
+        },
+      });
 
       temp_items[j + 1].value = temp_items[j].value;
       await timer(speedSetting);

@@ -4,26 +4,21 @@ const Context = React.createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE_SIZE': // TODO - SEPARATE ITEM ARRAY RELATED CONTEXT FROM THE OPTIONS RELATED CONTEXT
+    case 'UPDATE_SIZE_SETTING': // TODO - SEPARATE ITEM ARRAY RELATED CONTEXT FROM THE OPTIONS RELATED CONTEXT
       return {
         ...state,
         sizeSetting: action.payload,
       };
-    case 'UPDATE_SPEED':
+    case 'UPDATE_SPEED_SETTING':
       return {
         ...state,
         speedSetting: action.payload,
       };
-    case 'GENERATE_LIST':
-      //TODO - ADAPT THIS:
-      // for (let i = 0; i < 60; i++) {
-      //   items.push({
-      //     id: i,
-      //     value: Math.floor(Math.random() * 140),
-      //     status: 'default',
-      //   });
-      // }
-      break;
+    case 'GENERATE_RANDOM_LIST':
+      return {
+        ...state,
+        items: generated_random_item_list(),
+      };
     case 'UPDATE_LIST':
       return {
         ...state,
@@ -34,6 +29,7 @@ const reducer = (state, action) => {
         ...state,
         isSortingSetting: action.payload,
       };
+
     case 'RESET_ITEMS_COLOR':
       return {
         ...state,
@@ -64,15 +60,13 @@ const reducer = (state, action) => {
             return item;
           } else if (item === item1) {
             return {
-              id: item1.id,
+              ...item1,
               value: item2.value,
-              status: item1.status,
             };
           } else if (item === item2) {
             return {
-              id: item2.id,
+              ...item2,
               value: item1.value,
-              status: item2.status,
             };
           }
         }),
@@ -117,24 +111,24 @@ const reducer = (state, action) => {
   }
 };
 
-// Order of item Id's don't matter, it's just a unique identifier for comparison
-
-// cant be 0
-var items = [];
-for (let i = 0; i < 60; i++) {
-  items.push({
-    id: i,
-    value: Math.floor(Math.random() * 140),
-    status: 'default',
-  });
-}
+const generated_random_item_list = () => {
+  let new_items = [];
+  for (let i = 0; i < 60; i++) {
+    new_items.push({
+      id: i,
+      value: Math.floor(Math.random() * 140),
+      status: 'default',
+    });
+  }
+  return new_items;
+};
 
 export const Provider = (props) => {
   const [state, setState] = useState({
     isSortingSetting: false,
     sizeSetting: 60,
     speedSetting: 0, //ms
-    items: items,
+    items: generated_random_item_list(),
     dispatch: (action) => setState((state) => reducer(state, action)),
   });
 
