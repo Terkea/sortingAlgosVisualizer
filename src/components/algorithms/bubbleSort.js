@@ -1,11 +1,8 @@
 import { timer, updateItem } from './helpers';
 
-export default async function bubbleSort(items, speed, dispatch) {
-  //prevent from sorting multiple times
-  dispatch({
-    type: 'UPDATE_SORTING',
-    payload: true,
-  });
+export default async function bubbleSort(state) {
+  const { items, speedSetting, dispatch } = state;
+  //prevent from isSortingSetting multiple times
 
   // We need to wrap the loop into an async function for this to work
   var temp_items = items;
@@ -16,7 +13,7 @@ export default async function bubbleSort(items, speed, dispatch) {
     for (var j = 0; j < length - i - 1; j++) {
       //Notice that j < (length - i)
       // Compare the adjacent positions
-      await timer(speed);
+      await timer(speedSetting);
       updateItem(temp_items[j].id, temp_items[j].value, 'evaluating', dispatch);
       updateItem(
         temp_items[j + 1].id,
@@ -25,7 +22,7 @@ export default async function bubbleSort(items, speed, dispatch) {
         dispatch
       );
       if (temp_items[j].value > temp_items[j + 1].value) {
-        await timer(speed / 2);
+        await timer(speedSetting / 2);
         // Swap the numbers
         var tmp = temp_items[j].value; //Temporary variable to hold the current number
         temp_items[j].value = temp_items[j + 1].value; //Replace current number with adjacent number
@@ -43,7 +40,7 @@ export default async function bubbleSort(items, speed, dispatch) {
           dispatch
         );
 
-        await timer(speed / 2);
+        await timer(speedSetting / 2);
         updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch);
         updateItem(
           temp_items[j + 1].id,
@@ -52,7 +49,7 @@ export default async function bubbleSort(items, speed, dispatch) {
           dispatch
         );
       } else {
-        await timer(speed);
+        await timer(speedSetting);
         updateItem(temp_items[j].id, temp_items[j].value, 'default', dispatch);
         updateItem(
           temp_items[j + 1].id,
@@ -66,10 +63,5 @@ export default async function bubbleSort(items, speed, dispatch) {
   dispatch({
     type: 'UPDATE_LIST',
     payload: temp_items,
-  });
-  //prevent from sorting multiple times
-  dispatch({
-    type: 'UPDATE_SORTING',
-    payload: false,
   });
 }

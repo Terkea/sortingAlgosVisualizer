@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 
 const Context = React.createContext();
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_SIZE': // TODO - SEPARATE ITEM ARRAY RELATED CONTEXT FROM THE OPTIONS RELATED CONTEXT
       return {
         ...state,
-        size: action.payload,
+        sizeSetting: action.payload,
       };
     case 'UPDATE_SPEED':
       return {
         ...state,
-        speed: action.payload,
+        speedSetting: action.payload,
       };
     case 'GENERATE_LIST':
       //TODO - ADAPT THIS:
@@ -28,10 +29,10 @@ const reducer = (state, action) => {
         ...state,
         items: action.payload,
       };
-    case 'UPDATE_SORTING':
+    case 'UPDATE_IS_SORTING':
       return {
         ...state,
-        sorting: action.payload,
+        isSortingSetting: action.payload,
       };
     case 'RESET_ITEMS_COLOR':
       return {
@@ -91,12 +92,7 @@ const reducer = (state, action) => {
 
       return {
         ...state,
-        items: items.map((item, i) => {
-          return {
-            id: i,
-            ...item,
-          };
-        }),
+        items,
       };
     // case 'PUSH_ITEMS':
     //   // itemsArray1 <=PUSH itemsArray2
@@ -121,6 +117,8 @@ const reducer = (state, action) => {
   }
 };
 
+// Order of item Id's don't matter, it's just a unique identifier for comparison
+
 // cant be 0
 var items = [];
 for (let i = 0; i < 60; i++) {
@@ -131,21 +129,17 @@ for (let i = 0; i < 60; i++) {
   });
 }
 
-export class Provider extends Component {
-  state = {
-    sorting: false,
-    size: 60,
-    speed: 0, //ms
+export const Provider = (props) => {
+  const [state, setState] = useState({
+    isSortingSetting: false,
+    sizeSetting: 60,
+    speedSetting: 0, //ms
     items: items,
-    dispatch: (action) => this.setState((state) => reducer(state, action)),
-  };
-  render() {
-    return (
-      <Context.Provider value={this.state}>
-        {this.props.children}
-      </Context.Provider>
-    );
-  }
-}
+    dispatch: (action) => setState((state) => reducer(state, action)),
+  });
 
+  return <Context.Provider value={state}>{props.children}</Context.Provider>;
+};
+
+// export Provider;
 export const Consumer = Context.Consumer;

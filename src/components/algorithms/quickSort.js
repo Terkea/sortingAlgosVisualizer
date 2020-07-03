@@ -1,17 +1,19 @@
 import { timer, updateItem } from './helpers';
 
-export default function quickSort(items, speed, dispatch) {
+export default function quickSort(state) {
   //////////////////////////
+  const { items, speedSetting, dispatch } = state;
+
   async function swap(items, leftIndex, rightIndex) {
     let temp = items[leftIndex].value;
-    await timer(speed / 2);
+    await timer(speedSetting / 2);
     updateItem(
       items[leftIndex].id,
       items[rightIndex].value,
       'isSwapping',
       dispatch
     );
-    await timer(speed / 2);
+    await timer(speedSetting / 2);
     updateItem(items[rightIndex].id, temp, 'evaluating', dispatch);
   }
 
@@ -53,13 +55,5 @@ export default function quickSort(items, speed, dispatch) {
 
   console.log('check it works');
 
-  dispatch({
-    type: 'UPDATE_SORTING',
-    payload: true,
-  });
   quickSort(items, 0, items.length - 1);
-  dispatch({
-    type: 'UPDATE_SORTING',
-    payload: false,
-  });
 }

@@ -6,7 +6,8 @@ import {
   resetItemsColor,
 } from './helpers';
 
-export default function mergeSort(items, speed, dispatch) {
+export default function mergeSort(state) {
+  const { items, speedSetting, dispatch } = state;
   // Merge Sort Implentation (Recursion)
   function actuallyMergeSort(unsortedArray) {
     // No need to sort the array if the array only has one element or empty
@@ -39,7 +40,7 @@ export default function mergeSort(items, speed, dispatch) {
           'evaluating',
           dispatch
         );
-        timer(speed / 2);
+        timer(speedSetting / 2);
         resultArray.push(left[leftIndex]);
         pushItem(
           {
@@ -49,8 +50,8 @@ export default function mergeSort(items, speed, dispatch) {
           },
           dispatch
         );
-        // await timer(speed / 2);
-        // timer(speed / 2);
+        // await timer(speedSetting / 2);
+        // timer(speedSetting / 2);
         leftIndex++; // move left array cursor
       } else {
         updateItem(
@@ -59,7 +60,7 @@ export default function mergeSort(items, speed, dispatch) {
           'evaluating',
           dispatch
         );
-        // await timer(speed / 2);
+        // await timer(speedSetting / 2);
         resultArray.push(right[rightIndex]);
         pushItem(
           {
@@ -69,14 +70,14 @@ export default function mergeSort(items, speed, dispatch) {
           },
           dispatch
         );
-        // await timer(speed / 2);
+        // await timer(speedSetting / 2);
         updateItem(
           right[rightIndex].id,
           right[rightIndex].value,
           'evaluating',
           dispatch
         );
-        // timer(speed / 2);
+        // timer(speedSetting / 2);
         rightIndex++; // move right array cursor
       }
       resetItemsColor(dispatch);

@@ -7,7 +7,7 @@ import Background from './containers/Background';
 
 const App = () => {
   const [inputSize, setInputSize] = useState(20);
-  const [speed, setSpeed] = useState(200); //ms
+  const [speedSetting, setSpeed] = useState(200); //ms
 
   return (
     <Provider>

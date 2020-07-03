@@ -5,15 +5,19 @@ import { Consumer } from '../context';
 const Board = () => {
   return (
     <Consumer>
-      {(value) => {
-        const { size, speed, items, dispatch } = value;
+      {(state) => {
+        const { items } = state;
         return (
-          
           <div style={styles.board}>
             {items.map((item, i) => {
               // the value of the board width divided by the number of values from which we substract 5 (the margin factor per)
               return (
-                  <Line key={i} status={item.status} size={item.value} width={(1600 / items.length) - 5} />
+                <Line
+                  key={i}
+                  status={item.status}
+                  sizeSetting={item.value}
+                  width={1600 / items.length - 5}
+                />
               );
             })}
           </div>

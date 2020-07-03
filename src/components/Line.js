@@ -2,7 +2,7 @@ import React from 'react';
 
 const Line = (props) => {
   const style = {
-    height: 5 * props.size + 'px',
+    height: 5 * props.sizeSetting + 'px',
     width: props.width + 'px',
     marginLeft: 3 + 'px',
     marginRight: 3 + 'px',

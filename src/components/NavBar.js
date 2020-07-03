@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './styles/NavBar.css';
 import { Consumer } from '../context';
 
@@ -9,27 +10,30 @@ import selectionSort from './algorithms/selectionSort';
 import mergeSort from './algorithms/mergeSort';
 import quickSort from './algorithms/quickSort';
 
+// TODO: these options have to be better implemented elsewhere
+
 const SIZE_MAXIMUM = 100;
 const SIZE_MINIMUM = 0;
 
-const SPEED_MAXIMUM = 2000;
-const SPEED_MINIMUM = 20; //ms
+const SPEED_MAXIMUM = 2000; // ms
+
+let algorithm = bubbleSort; // default option
 
 const onChangeSize = (e, dispatch) => {
-  const size = e.target.value;
-  if (size > SIZE_MAXIMUM) {
+  const sizeSetting = e.target.value;
+  if (sizeSetting > SIZE_MAXIMUM) {
     e.target.value = SIZE_MAXIMUM;
-  } else if (size < SIZE_MINIMUM) {
+  } else if (sizeSetting < SIZE_MINIMUM) {
     e.target.value = SIZE_MINIMUM;
   }
   dispatch({
     type: 'UPDATE_SIZE',
-    payload: size,
+    payload: sizeSetting,
   });
 
   // cant be 0
   var items = [];
-  for (let i = 0; i < size; i++) {
+  for (let i = 0; i < sizeSetting; i++) {
     items.push({
       id: i,
       value: Math.floor(Math.random() * 100),
@@ -44,72 +48,92 @@ const onChangeSize = (e, dispatch) => {
 };
 
 const onChangeSpeed = (e, dispatch) => {
-  const speed = e.target.value;
-  if (speed > SPEED_MAXIMUM) {
+  const speedSetting = e.target.value;
+  if (speedSetting > SPEED_MAXIMUM) {
     e.target.value = SPEED_MAXIMUM;
-  } else if (speed < SPEED_MINIMUM) {
-    e.target.value = SPEED_MINIMUM;
+  } else if (speedSetting < 0) {
+    e.target.value = 0;
   }
   dispatch({
     type: 'UPDATE_SPEED',
-    payload: speed,
+    payload: speedSetting,
   });
 };
 
-async function timSort(items, speed, dispatch) {
+async function timSort(items, speedSetting, dispatch) {
   console.log('Preparing to timSort');
 }
 
-async function heapSort(items, speed, dispatch) {
+async function heapSort(items, speedSetting, dispatch) {
   console.log('Preparing to heapSort');
 }
+
+const setSortType = (e, dispatch) => {
+  let domNode = ReactDOM.findDOMNode(e.target);
+  let option = domNode.innerText.split(' ')[0];
+  console.log(option);
+  switch (option) {
+    case 'Bubble':
+      algorithm = bubbleSort;
+      break;
+    case 'Insertion':
+      algorithm = insertionSort;
+      break;
+    case 'Selection':
+      algorithm = selectionSort;
+      break;
+    case 'Merge':
+      algorithm = mergeSort;
+      break;
+    case 'Quick':
+      algorithm = quickSort;
+      break;
+    case 'Tim':
+      algorithm = timSort;
+      break;
+    case 'Heap':
+      algorithm = heapSort;
+      break;
+    default:
+      break;
+  }
+  console.log(algorithm);
+  // Must set isSortingSetting to false so it makes it stop when selecting a new option
+  dispatch({
+    type: 'UPDATE_IS_SORTING',
+    payload: false,
+  });
+};
+
+const sort = (state) => {
+  const { isSortingSetting, dispatch } = state;
+  console.log(isSortingSetting);
+  if (state.isSortingSetting === false) {
+    if (algorithm != null) {
+      dispatch({
+        type: 'UPDATE_IS_SORTING',
+        payload: true,
+      });
+      algorithm(state);
+      dispatch({
+        type: 'UPDATE_IS_SORTING',
+        payload: false,
+      });
+    }
+  }
+};
 
 const NavBar = () => {
   return (
     <Consumer>
-      {(value) => {
-        const { sorting, size, speed, items, dispatch } = value;
-        let algorithm;
-        let sortType = 'BUBBLE';
-        const sort = () => {
-          if (sorting === false) {
-            switch (sortType) {
-              case 'BUBBLE':
-                console.log('bubble');
-                algorithm = bubbleSort;
-                break;
-              case 'INSERTION':
-                console.log('insertion');
-                insertionSort(items, speed, dispatch);
-                break;
-              case 'SELECTION':
-                console.log('selection');
-                selectionSort(items, speed, dispatch);
-                break;
-              case 'MERGE':
-                console.log('merge');
-                mergeSort(items, speed, dispatch);
-                break;
-              case 'QUICK':
-                console.log('quick');
-                quickSort(items, speed, dispatch);
-                break;
-              case 'TIM':
-                console.log('tim');
-                timSort(items, speed, dispatch);
-                break;
-              case 'HEAP':
-                console.log('heap');
-                heapSort(items, speed, dispatch);
-                break;
-              default:
-                algorithm = bubbleSort;
-            }
-            if (algorithm != null) {
-              algorithm(items, speed, dispatch);
-            }
-          }
-        };
+      {(state) => {
+        const {
+          isSortingSetting,
+          sizeSetting,
+          speedSetting,
+          items,
+          dispatch,
+        } = state;
 
         return (
           <nav style={navbarStyle}>
@@ -126,18 +150,22 @@ const NavBar = () => {
                 onChange={(e) => onChangeSize(e, dispatch)}
                 style={listElementsStyle}
                 type="number"
-                defaultValue={size}
+                defaultValue={sizeSetting}
               />
               <div className="dropdown" style={listElementsStyle}>
                 <button className="dropbtn">Sorting Algorithms ↴</button>
                 <div className="dropdown-content">
-                  <a onClick={() => (sortType = 'BUBBLE')}>Bubble Sort</a>
-                  <a onClick={() => (sortType = 'INSERTION')}>Insertion Sort</a>
-                  <a onClick={() => (sortType = 'SELECTION')}>Selection Sort</a>
-                  {/* <a onClick={() => (sortType = 'MERGE')}>Merge Sort</a>
-                  <a onClick={() => (sortType = 'QUICK')}>Quick Sort</a>
-                  <a onClick={() => (sortType = 'TIM')}>Tim Sort</a>
-                  <a onClick={() => (sortType = 'HEAP')}>Heap Sort</a> */}
+                  <a onClick={(e) => setSortType(e, dispatch)}>Bubble Sort</a>
+                  <a onClick={(e) => setSortType(e, dispatch)}>
+                    Insertion Sort
+                  </a>
+                  <a onClick={(e) => setSortType(e, dispatch)}>
+                    Selection Sort
+                  </a>
+                  {/* <a onClick={(e) => setSortType(e,dispatch)}>Merge Sort</a>
+                  <a onClick={(e) => setSortType(e,dispatch)}>Quick Sort</a>
+                  <a onClick={(e) => setSortType(e,dispatch)}>Tim Sort</a>
+                  <a onClick={(e) => setSortType(e,dispatch)}>Heap Sort</a> */}
                 </div>
               </div>
               <li style={listElementsStyle}>Speed</li>
@@ -146,9 +174,9 @@ const NavBar = () => {
                 onChange={(e) => onChangeSpeed(e, dispatch)}
                 style={listElementsStyle}
                 type="number"
-                defaultValue={speed}
+                defaultValue={speedSetting}
               />
-              <button onClick={() => sort()}>SORT THIS SHIT</button>
+              <button onClick={() => sort(state)}>SORT</button>
             </ul>
           </nav>
         );
